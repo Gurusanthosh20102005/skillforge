@@ -1,0 +1,71 @@
+/* Forms & Dialogs Styling */
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dialog-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 24px;
+}
+
+.dialog-actions button {
+  min-width: 90px;
+  text-transform: none;
+  font-weight: 500;
+}
+
+.text-field {
+  margin-bottom: 12px;
+}
+
+.text-field textarea {
+  font-family: "Roboto", sans-serif;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #1565c0;
+}
+
+.btn-success {
+  background-color: #2e7d32;
+  color: #fff;
+}
+
+.btn-success:hover {
+  background-color: #27632a;
+}
+
+.btn-error {
+  background-color: #d32f2f;
+  color: #fff;
+}
+
+.btn-error:hover {
+  background-color: #b71c1c;
+}
+
+/* Preview Dialog */
+.preview-dialog iframe,
+.preview-dialog video {
+  width: 100%;
+  max-height: 500px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
