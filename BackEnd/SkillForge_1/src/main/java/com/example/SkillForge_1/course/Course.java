@@ -1,6 +1,6 @@
 package com.example.SkillForge_1.course;
 
-import com.example.SkillForge_1.user.User;
+import com.example.SkillForge_1.model.UserAuthentication;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class Course {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user; // creator of the course
+    private UserAuthentication user; // creator of the course
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Topic> topics; // list of topics under this course
@@ -29,7 +29,7 @@ public class Course {
     public Course() {}
 
     // Constructor with fields
-    public Course(String title, String description, User user) {
+    public Course(String title, String description, UserAuthentication user) {
         this.title = title;
         this.description = description;
         this.user = user;
@@ -60,11 +60,11 @@ public class Course {
         this.description = description;
     }
 
-    public User getUser() {
+    public UserAuthentication getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserAuthentication user) {
         this.user = user;
     }
 
