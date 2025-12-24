@@ -24,12 +24,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // disable CSRF for Postman
+                .headers(headers -> headers.frameOptions(frame -> frame.disable())) // allow H2 console frames
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/**").permitAll() // allow all auth endpoints
-                    .requestMatchers(HttpMethod.GET, "/api/courses/**").permitAll()
-                    .requestMatchers("/api/courses/**").hasAnyRole("Instructor","Admin")
-                    .requestMatchers("/api/learning/**").authenticated()
-                    .anyRequest().authenticated()
+                .requestMatchers("/", "/error").permitAll() // allow root and error page
+                .requestMatchers("/h2-console/**").permitAll() // allow H2 console
+                .requestMatchers("/api/auth/**").permitAll() // allow all auth endpoints
+                .requestMatchers(HttpMethod.GET, "/api/courses/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/learning/**").permitAll()
+                .requestMatchers("/api/courses/**").hasAnyRole("Instructor", "Admin")
+                .requestMatchers("/api/learning/**").authenticated()
+                .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable()); // disable HTTP Basic auth
