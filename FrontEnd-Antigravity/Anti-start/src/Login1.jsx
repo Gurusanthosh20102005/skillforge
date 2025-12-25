@@ -19,8 +19,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from 'react-router-dom';
 import SchoolIcon from "@mui/icons-material/School";
+import { authService } from "./services/authService";
 import { useAuth } from "./context/AuthContext";
-import { authService } from "./services/authService.jsx";
+
 const toastOptions = {
     autoClose: 3000,
     theme: "colored",

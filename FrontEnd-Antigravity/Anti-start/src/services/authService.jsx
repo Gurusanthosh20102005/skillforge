@@ -1,71 +1,40 @@
-/**
- * authService.jsx
- * 
- * Standalone authentication service using localStorage.
- * Handles user registration and login without external API dependencies.
- */
-
-const USERS_STORAGE_KEY = 'skillforge_local_users';
-
-const getLocalUsers = () => {
-    const users = localStorage.getItem(USERS_STORAGE_KEY);
-    return users ? JSON.parse(users) : [];
-};
-
-const saveLocalUsers = (users) => {
-    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-};
+const API_BASE_URL = "http://localhost:8081/api";
 
 export const authService = {
     async login(email, password) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                const users = getLocalUsers();
-                const user = users.find(u => u.email === email && u.password === password);
-
-                if (user) {
-                    const { password, ...userWithoutPassword } = user;
-                    resolve({
-                        ...userWithoutPassword,
-                        token: `mock-jwt-token-${user.email}`,
-                    });
-                } else {
-                    reject(new Error("Invalid email or password"));
-                }
-            }, 300);
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
         });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || "Invalid credentials");
+        }
+
+        return await response.json();
     },
 
     async register(userData) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                const users = getLocalUsers();
-                if (users.some(u => u.email === userData.email)) {
-                    reject(new Error("User already exists with this email"));
-                    return;
-                }
-
-                const newUser = {
-                    ...userData,
-                    userId: Date.now(),
-                    created_at: new Date().toISOString()
-                };
-
-                users.push(newUser);
-                saveLocalUsers(users);
-
-                const { password, ...userWithoutPassword } = newUser;
-                resolve({
-                    ...userWithoutPassword,
-                    token: `mock-jwt-token-${newUser.email}`
-                });
-            }, 300);
+        const response = await fetch(`${API_BASE_URL}/auth/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userData),
         });
+
+        if (!response.ok) {
+            const errorMsg = await response.text();
+            throw new Error(errorMsg || "Registration failed");
+        }
+
+        // The backend RegisterResponse includes a token, so we can treat it similarly to login if needed
+        return await response.json();
     },
 
     logout() {
         localStorage.removeItem("skillforge_token");
-        localStorage.removeItem("skillforge_user");
         localStorage.removeItem("skillforge_role");
+        localStorage.removeItem("skillforge_user");
     }
 };
