@@ -80,32 +80,70 @@ export default function CourseList({ courses, setCourses }) {
     // Moved to App.jsx for shared state
 
     /* ---------------- COURSE HANDLERS ---------------- */
+
     const handleSaveCourse = async () => {
         if (!courseForm.course_title) return;
-        const updated = await courseService.saveCourse(courseForm, !!editingCourseId);
-        setCourses(updated);
-        setOpenCourseForm(false);
-        setEditingCourseId(null);
-        setCourseForm({ course_id: "", instructor_id: "", course_title: "", description: "", difficulty: "BEGINNER" });
+
+        try {
+            // Determine if this is an update or a new insert
+            const isEditing = !!editingCourseId;
+
+            // Save course via service
+            const updatedCourses = await courseService.saveCourse(courseForm, isEditing);
+
+            // Update state
+            setCourses(updatedCourses);
+            setOpenCourseForm(false);
+            setEditingCourseId(null);
+
+            // Reset form including studentStrength
+            setCourseForm({
+                course_id: "",
+                instructor_id: "",
+                course_title: "",
+                description: "",
+                difficulty: "BEGINNER",
+                studentStrength: 0
+            });
+
+        } catch (err) {
+            console.error("Failed to save course:", err);
+            alert("Error saving course. Please try again.");
+        }
     };
 
     const handleEditCourse = (course) => {
-        setCourseForm(course);
+        setCourseForm({
+            ...course,
+            studentStrength: course.studentStrength || 0
+        });
         setEditingCourseId(course.course_id);
         setOpenCourseForm(true);
     };
 
     const handleDeleteCourse = async (id) => {
-        const updated = await courseService.deleteCourse(id);
-        setCourses(updated);
-        if (activeCourseId === id) setActiveCourseId(null);
+        try {
+            const updatedCourses = await courseService.deleteCourse(id);
+            setCourses(updatedCourses);
+            if (activeCourseId === id) setActiveCourseId(null);
+        } catch (err) {
+            console.error("Failed to delete course:", err);
+            alert("Error deleting course. Please try again.");
+        }
     };
 
     const handleSaveSettings = async () => {
         if (!courseForm.course_title) return;
-        const updated = await courseService.saveCourse(courseForm, true);
-        setCourses(updated);
-        alert("Course settings saved successfully!");
+
+        try {
+            // Always update for settings
+            const updatedCourses = await courseService.saveCourse(courseForm, true);
+            setCourses(updatedCourses);
+            alert("Course settings saved successfully!");
+        } catch (err) {
+            console.error("Failed to save course settings:", err);
+            alert("Error saving settings. Please try again.");
+        }
     };
 
     /* ---------------- TOPIC ---------------- */

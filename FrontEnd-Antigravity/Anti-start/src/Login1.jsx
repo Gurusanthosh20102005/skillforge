@@ -70,8 +70,9 @@ const Login1 = () => {
 
         try {
             const result = await authService.login(data.email, data.password);
+            // result = { token, email, role }
 
-            login(result);
+            login(result); // ✅ token exists now
 
             toast.success("Login Successful!", toastOptions);
 
@@ -82,15 +83,15 @@ const Login1 = () => {
                 navigate("/instructor/dashboard");
             } else if (userRole === "ADMIN") {
                 navigate("/admin/dashboard");
+            } else {
+                navigate("/pagenotfound");
             }
-            else navigate("/pagenotfound");
         } catch (error) {
             toast.error(error.message || "Server not reachable!", toastOptions);
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false);
     };
-
     return (
         <Box sx={{
             minHeight: "100vh",

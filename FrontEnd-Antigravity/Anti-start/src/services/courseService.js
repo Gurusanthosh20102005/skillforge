@@ -143,3 +143,40 @@ export const courseService = {
         });
     }
 };
+/**
+ * courseService.js
+ *
+ * This service now interacts with the real Spring Boot backend
+ * instead of using localStorage.
+//  */
+// // ----------------- courseService.js -----------------
+// const API_BASE_URL = "http://localhost:8081/api/courses";
+
+// export const courseService = {
+//     async saveCourse(course, isUpdate) {
+//         const token = localStorage.getItem("token"); // JWT from localStorage
+//         const method = isUpdate ? "PUT" : "POST";
+//         const url = isUpdate
+//             ? `${API_BASE_URL}/${course.course_id}` // PUT endpoint
+//             : API_BASE_URL;                        // POST endpoint
+
+//         const response = await fetch(url, {
+//             method,
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "Authorization": `Bearer ${token}`
+//             },
+//             body: JSON.stringify(course)
+//         });
+
+//         if (!response.ok) {
+//             const errorText = await response.text();
+//             console.error("Backend error response:", errorText);
+//             throw new Error("Failed to save course");
+//         }
+
+//         return await response.json();
+//     },
+
+//     // ... other methods remain the same
+// };

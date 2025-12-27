@@ -15,8 +15,9 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final long JWT_EXPIRATION = 1000 * 60 * 60 * 10; // 10 hours
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
+//    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+private static final String SECRET = "SkillForgeDevSecretKeySkillForgeDevSecretKey";
+    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
     // Extract username (email) from JWT
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
