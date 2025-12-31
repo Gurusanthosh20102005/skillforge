@@ -1,76 +1,139 @@
-package com.example.SkillForge_1.model; // Course is inside course package
+//package com.example.SkillForge_1.model;
+//
+//import jakarta.persistence.*;
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//@Entity
+//@Table(name = "courses")
+//public class Course {
+//
+//    @Id
+//    @Column(name = "course_id")
+//    private String courseId;
+//
+//    private String name;
+//    private String description;
+//    private String difficulty;
+//    private Integer studentStrength;
+//
+//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Topic> topics = new ArrayList<>();
+//
+//    // ===== getters & setters =====
+//
+//    public String getCourseId() {
+//        return courseId;
+//    }
+//
+//    public void setCourseId(String courseId) {
+//        this.courseId = courseId;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
+//
+//    public String getDifficulty() {
+//        return difficulty;
+//    }
+//
+//    public void setDifficulty(String difficulty) {
+//        this.difficulty = difficulty;
+//    }
+//
+//    public Integer getStudentStrength() {
+//        return studentStrength;
+//    }
+//
+//    public void setStudentStrength(Integer studentStrength) {
+//        this.studentStrength = studentStrength;
+//    }
+//
+//    public List<Topic> getTopics() {
+//        return topics;
+//    }
+//
+//    public void setTopics(List<Topic> topics) {
+//        this.topics = topics;
+//    }
+//}
 
-import com.example.SkillForge_1.model.User; // <--- correct package
+package com.example.SkillForge_1.model;
+
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-
 @Entity
 @Table(name = "courses")
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "course_id")
+    private String courseId;
 
-    @Column(nullable = false)
-    private String title;
+    @Column(name = "name")
+    private String name;
 
-    @Column(length = 1000)
+    @Column(name = "description")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user; // creator of the course
+    @Column(name = "difficulty")
+    private String difficulty;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Topic> topics; // list of topics under this course
+    @Column(name = "student_strength")
+    private Integer studentStrength;
+
+    @Column(name = "instructor_id")
+    private String instructorId;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "course_id")
+    private List<Topic> topics = new ArrayList<>();
+    // Constructors
 
     public Course() {}
 
-    public Course(String title, String description, User user) {
-        this.title = title;
+    public Course(String courseId, String instructorId,String name, String description, String difficulty, Integer studentStrength) {
+        this.courseId = courseId;
+        this.instructorId=instructorId;
+        this.name = name;
         this.description = description;
-        this.user = user;
+        this.difficulty = difficulty;
+        this.studentStrength = studentStrength;
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public String getCourseId() { return courseId; }
+    public void setCourseId(String courseId) { this.courseId = courseId; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public String getDifficulty() { return difficulty; }
+    public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
 
-    public String getDescription() {
-        return description;
-    }
+    public Integer getStudentStrength() { return studentStrength; }
+    public void setStudentStrength(Integer studentStrength) { this.studentStrength = studentStrength; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public String getInstructorId() { return instructorId; }
+    public void setInstructorId(String instructorId) { this.instructorId = instructorId; }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Topic> getTopics() {
-        return topics;
-    }
-
-    public void setTopics(List<Topic> topics) {
-        this.topics = topics;
-    }
+    public List<Topic> getTopics() { return topics; }
+    public void setTopics(List<Topic> topics) { this.topics = topics; }
 }
