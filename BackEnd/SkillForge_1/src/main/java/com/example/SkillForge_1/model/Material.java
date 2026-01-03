@@ -63,9 +63,12 @@
 package com.example.SkillForge_1.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonAlias;
 
 @Entity
 @Table(name = "materials")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Material {
 
     @Id
@@ -73,8 +76,13 @@ public class Material {
     private Long id;
 
     private String name;
+    @JsonAlias({"fileName", "file_name", "file"})
     private String fileName;
     private String type;
+
+    // For Link/Video or for serving uploaded files via /uploads/**
+    @JsonAlias({"url", "link"})
+    private String url;
 
     // Constructors
     public Material() {}
@@ -83,6 +91,13 @@ public class Material {
         this.name = name;
         this.fileName = fileName;
         this.type = type;
+    }
+
+    public Material(String name, String fileName, String type, String url) {
+        this.name = name;
+        this.fileName = fileName;
+        this.type = type;
+        this.url = url;
     }
 
     // Getters and Setters
@@ -97,4 +112,7 @@ public class Material {
 
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
+
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
 }

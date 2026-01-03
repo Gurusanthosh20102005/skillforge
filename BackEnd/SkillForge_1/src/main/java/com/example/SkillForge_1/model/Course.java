@@ -74,6 +74,7 @@
 package com.example.SkillForge_1.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
@@ -82,21 +83,27 @@ public class Course {
 
     @Id
     @Column(name = "course_id")
+    @JsonAlias({"course_id", "courseId"})
     private String courseId;
 
     @Column(name = "name")
+    @JsonAlias({"name", "courseName", "course_title", "courseTitle"})
     private String name;
 
     @Column(name = "description")
+    @JsonAlias({"description"})
     private String description;
 
     @Column(name = "difficulty")
+    @JsonAlias({"difficulty"})
     private String difficulty;
 
     @Column(name = "student_strength")
+    @JsonAlias({"studentStrength", "student_strength", "totalStudents", "total_students"})
     private Integer studentStrength;
 
     @Column(name = "instructor_id")
+    @JsonAlias({"instructorId", "instructor_id"})
     private String instructorId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

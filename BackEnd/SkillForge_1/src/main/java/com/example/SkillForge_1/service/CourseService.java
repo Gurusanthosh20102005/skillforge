@@ -35,4 +35,11 @@ public interface CourseService {
 
     Course saveTopic(String courseId, Topic topic);
     Course addMaterial(String courseId, int topicIndex, Material material);
+
+    Course updateTopic(String courseId, Long topicId, Topic topic);
+    Course deleteTopic(String courseId, Long topicId);
+
+    Course addMaterialByTopicId(String courseId, Long topicId, Material material);
+    Course updateMaterial(String courseId, Long topicId, Long materialId, Material material);
+    Course deleteMaterial(String courseId, Long topicId, Long materialId);
 }

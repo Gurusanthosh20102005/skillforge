@@ -92,8 +92,16 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/course/**").permitAll()
-                        .requestMatchers("/api/course/**").hasAnyRole("Instructor", "Admin")
+                        .requestMatchers("/uploads/**").permitAll()
+
+                        // Courses: allow anyone to view, restrict mutations to Instructor/Admin
+                        .requestMatchers(HttpMethod.GET, "/api/courses/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/courses/**").hasAnyRole("Instructor", "Admin")
+                        .requestMatchers(HttpMethod.PUT, "/api/courses/**").hasAnyRole("Instructor", "Admin")
+                        .requestMatchers(HttpMethod.DELETE, "/api/courses/**").hasAnyRole("Instructor", "Admin")
+
+                        // Student learning endpoints
+                        .requestMatchers("/api/student/**").hasRole("Student")
 
                         .anyRequest().authenticated()
                 )

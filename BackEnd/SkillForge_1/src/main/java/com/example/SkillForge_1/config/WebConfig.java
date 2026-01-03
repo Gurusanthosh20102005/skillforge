@@ -63,8 +63,11 @@ public class WebConfig implements WebMvcConfigurer {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Allow your React app
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        // Allow local dev frontends (Vite + CRA)
+        configuration.setAllowedOrigins(List.of(
+            "http://localhost:5173",
+            "http://localhost:3000"
+        ));
 
         // Allow all HTTP methods
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

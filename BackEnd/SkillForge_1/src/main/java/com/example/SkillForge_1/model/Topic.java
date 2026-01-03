@@ -78,6 +78,7 @@
 package com.example.SkillForge_1.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +96,7 @@ public class Topic {
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @JsonIgnore
     private Course course;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
